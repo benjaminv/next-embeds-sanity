@@ -1,11 +1,12 @@
-import 'tailwindcss/tailwind.css'
+import '../tailwind.css'
 
 import { VisualEditing } from '@sanity/visual-editing/next-pages-router'
 import { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 
 export interface SharedPageProps {
-  draftMode: boolean
+  previewMode: boolean
+  previewPerspective: string | null
   token: string
 }
 
@@ -15,17 +16,17 @@ export default function App({
   Component,
   pageProps,
 }: AppProps<SharedPageProps>) {
-  const { draftMode, token } = pageProps
+  const { previewMode, previewPerspective, token } = pageProps
   return (
     <>
-      {draftMode ? (
-        <PreviewProvider token={token}>
+      {previewMode ? (
+        <PreviewProvider perspective={previewPerspective} token={token}>
           <Component {...pageProps} />
         </PreviewProvider>
       ) : (
         <Component {...pageProps} />
       )}
-      {draftMode && <VisualEditing />}
+      {previewMode && <VisualEditing />}
     </>
   )
 }
