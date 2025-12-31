@@ -8,8 +8,14 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'name',
-      title: 'Name',
+      name: 'firstName',
+      title: 'First Name',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'lastName',
+      title: 'Last Name',
       type: 'string',
       validation: (rule) => rule.required(),
     }),
@@ -18,15 +24,39 @@ export default defineType({
       title: 'Picture',
       type: 'image',
       fields: [
-        {
+        defineField({
           name: 'alt',
           type: 'string',
           title: 'Alternative text',
-          description: 'Important for SEO and accessiblity.',
-        },
+          description: 'Important for SEO and accessibility.',
+          validation: (rule) => {
+            // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
+            return rule.custom((alt, context) => {
+              if ((context.document?.picture as any)?.asset?._ref && !alt) {
+                return 'Required'
+              }
+              return true
+            })
+          },
+        }),
       ],
       options: { hotspot: true },
       validation: (rule) => rule.required(),
     }),
   ],
+  // List preview configuration. https://www.sanity.io/docs/previews-list-views
+  preview: {
+    select: {
+      firstName: 'firstName',
+      lastName: 'lastName',
+      picture: 'picture',
+    },
+    prepare(selection) {
+      return {
+        title: `${selection.firstName} ${selection.lastName}`,
+        subtitle: 'Author',
+        media: selection.picture,
+      }
+    },
+  },
 })

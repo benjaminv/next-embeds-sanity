@@ -42,7 +42,8 @@ export const previewDocumentNode = (): DefaultDocumentNodeResolver => {
           S.view
             .component(({ document }) => (
               <AuthorAvatarPreviewPane
-                name={document.displayed.name as any}
+                firstName={document.displayed.firstName as any}
+                lastName={document.displayed.lastName as any}
                 picture={document.displayed.picture as any}
               />
             ))
