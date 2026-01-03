@@ -1,7 +1,17 @@
 import Link from 'next/link'
+import { useSyncExternalStore } from 'react'
+
+const subscribe = () => () => {}
 
 export default function Footer() {
+  const mounted = useSyncExternalStore(
+      subscribe,
+      () => true,
+      () => false,
+    )
   const currentYear = new Date().getFullYear()
+  const isLocalHost = mounted ? window.location.hostname === 'localhost' : false
+  const repoURL = `https://${process.env.NEXT_PUBLIC_VERCEL_GIT_PROVIDER}.com/${process.env.NEXT_PUBLIC_VERCEL_GIT_REPO_OWNER}/${process.env.NEXT_PUBLIC_VERCEL_GIT_REPO_SLUG}`
   
   return (
     <footer className="border-t border-gray-100 bg-white">
@@ -31,14 +41,14 @@ export default function Footer() {
               >
                 Studio
               </Link>
-              <a 
-                href="https://github.com/sanity-io/nextjs-blog-cms-sanity-v3"
+              {!isLocalHost && <a 
+                href={repoURL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-gray-600 hover:text-blue-500 transition-colors"
               >
                 GitHub
-              </a>
+              </a>}
             </nav>
           </div>
 

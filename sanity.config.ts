@@ -17,10 +17,14 @@ import { defineConfig } from 'sanity'
 import { presentationTool } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
-import authorType from 'schemas/author'
+import personType from 'schemas/person'
 import postType from 'schemas/post'
+import pageType from 'schemas/page'
 import settingsType from 'schemas/settings'
 import blockContentType from 'schemas/objects/blockContent'
+import linkType from 'schemas/objects/link'
+import callToActionType from 'schemas/objects/callToAction'
+import infoSectionType from 'schemas/objects/infoSection'
 
 const title =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || 'Next.js Blog with Sanity.io'
@@ -32,7 +36,16 @@ export default defineConfig({
   title,
   schema: {
     // If you want more content types, you can add them to this array
-    types: [authorType, postType, settingsType, blockContentType],
+    types: [
+      personType,
+      postType,
+      pageType,
+      settingsType,
+      blockContentType,
+      linkType,
+      callToActionType,
+      infoSectionType,
+    ],
   },
   plugins: [
     structureTool({
@@ -51,6 +64,6 @@ export default defineConfig({
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     process.env.NODE_ENV !== 'production' &&
-      visionTool({ defaultApiVersion: apiVersion }),
+    visionTool({ defaultApiVersion: apiVersion }),
   ],
 })

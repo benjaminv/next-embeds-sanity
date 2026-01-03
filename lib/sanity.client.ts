@@ -13,6 +13,9 @@ import {
   postSlugsQuery,
   type Settings,
   settingsQuery,
+  type Page,
+  getPageQuery,
+  pagesSlugs,
 } from 'lib/sanity.queries'
 import type { PreviewData } from 'next'
 import { createClient, type SanityClient } from 'next-sanity'
@@ -75,3 +78,16 @@ export async function getPostAndMoreStories(
 ): Promise<{ post: Post; morePosts: Post[] }> {
   return await client.fetch(postAndMoreStoriesQuery, { slug })
 }
+
+export async function getPage(
+  client: SanityClient,
+  slug: string,
+): Promise<Page> {
+  return (await client.fetch(getPageQuery, { slug })) || ({} as any)
+}
+
+export async function getAllPagesSlugs(): Promise<string[]> {
+  const client = getClient()
+  return (await client.fetch<string[]>(pagesSlugs)) || []
+}
+

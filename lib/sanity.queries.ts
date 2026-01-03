@@ -65,3 +65,59 @@ export interface Settings {
     title?: string
   }
 }
+
+// Page queries
+const linkReference = /* groq */ `
+  _type == "link" => {
+    "page": page->slug.current,
+    "post": post->slug.current
+  }
+`
+
+const linkFields = /* groq */ `
+  link {
+    ...,
+    ${linkReference}
+  }
+`
+
+export const getPageQuery = groq`
+  *[_type == 'page' && slug.current == $slug][0]{
+    _id,
+    _type,
+    name,
+    slug,
+    heading,
+    subheading,
+    "pageBuilder": pageBuilder[]{
+      ...,
+      _type == "callToAction" => {
+        ${linkFields},
+      },
+      _type == "infoSection" => {
+        content[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        }
+      },
+    },
+  }
+`
+
+export const pagesSlugs = groq`
+  *[_type == "page" && defined(slug.current)][].slug.current
+`
+
+export interface Page {
+  _id: string
+  _type: string
+  name?: string
+  slug?: { current: string }
+  heading?: string
+  subheading?: string
+  pageBuilder?: any[]
+}
+

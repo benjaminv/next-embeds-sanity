@@ -2,8 +2,6 @@ import { DocumentTextIcon } from '@sanity/icons'
 import { format, parseISO } from 'date-fns'
 import { defineField, defineType } from 'sanity'
 
-import authorType from './author'
-
 /**
  * This file is the schema definition for a post.
  *
@@ -86,7 +84,7 @@ export default defineType({
       name: 'author',
       title: 'Author',
       type: 'reference',
-      to: [{ type: authorType.name }],
+      to: [{ type: 'person' }],
     }),
   ],
   preview: {
@@ -100,8 +98,8 @@ export default defineType({
     prepare({ title, media, authorFirstName, authorLastName, date }) {
       const subtitles = [
         authorFirstName &&
-          authorLastName &&
-          `by ${authorFirstName} ${authorLastName}`,
+        authorLastName &&
+        `by ${authorFirstName} ${authorLastName}`,
         date && `on ${format(parseISO(date), 'LLL d, yyyy')}`,
       ].filter(Boolean)
 
