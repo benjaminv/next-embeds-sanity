@@ -48,5 +48,6 @@ export const getStaticProps: GetStaticProps<PageProps, Query> = async (ctx) => {
       previewPerspective: typeof previewData === 'string' ? previewData : null,
       token: previewMode ? readToken : '',
     },
+    revalidate: 60, // Revalidate every 60 seconds
   }
 }
