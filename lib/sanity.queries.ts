@@ -92,7 +92,11 @@ export const getPageQuery = groq`
     "pageBuilder": pageBuilder[]{
       ...,
       _type == "callToAction" => {
-        ${linkFields},
+        ...,
+        button {
+          ...,
+          ${linkFields}
+        }
       },
       _type == "infoSection" => {
         content[]{
