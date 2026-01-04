@@ -22,7 +22,9 @@ import postType from 'schemas/post'
 import pageType from 'schemas/page'
 import settingsType from 'schemas/settings'
 import blockContentType from 'schemas/objects/blockContent'
+import blockContentTextOnlyType from 'schemas/objects/blockContentTextOnly'
 import linkType from 'schemas/objects/link'
+import buttonType from 'schemas/objects/button'
 import callToActionType from 'schemas/objects/callToAction'
 import infoSectionType from 'schemas/objects/infoSection'
 
@@ -42,7 +44,9 @@ export default defineConfig({
       pageType,
       settingsType,
       blockContentType,
+      blockContentTextOnlyType,
       linkType,
+      buttonType,
       callToActionType,
       infoSectionType,
     ],
