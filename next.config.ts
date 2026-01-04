@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next'
 
 const config: NextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // Temporarily disabled to debug hydration error
   images: {
     remotePatterns: [
       { hostname: 'cdn.sanity.io' },
